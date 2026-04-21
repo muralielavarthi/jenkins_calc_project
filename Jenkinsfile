@@ -30,22 +30,13 @@ pipeline {
                 }
             }
         }
-        // build docker image
-        stage("Build Docker Image"){
-            steps {
-                script {
-                    // docker image tag format: project/component:version
-                    sh "docker build -t ${PROJECT_NAME}/${COMPONENT_NAME}:${APP_VERSION} ."
-                }
-            }
-        }
-        // push docker image to ECR
-        stage("Push Docker Image to ECR"){
+        // build and push docker image to ECR
+        stage("Build and Push Docker Image to ECR"){
             steps {
                 script {
                    withAWS(region: 'us-east-1', credentials:'aws-creds') {
-                    // Login to ECR
                     sh """
+                    docker build -t ${PROJECT_NAME}/${COMPONENT_NAME}:${APP_VERSION} .
                     aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
                     docker tag ${PROJECT_NAME}/${COMPONENT_NAME}:${APP_VERSION} ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT_NAME}/${COMPONENT_NAME}:${APP_VERSION}
                     docker push ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT_NAME}/${COMPONENT_NAME}:${APP_VERSION}
