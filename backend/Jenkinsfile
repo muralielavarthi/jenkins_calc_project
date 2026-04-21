@@ -1,8 +1,8 @@
 pipeline {
     // agent label
-    agent {label 'nodejs-backend'}
+    agent {label 'calc_backend_nodejs_ci_label'}
 
-    // environment variables
+    // project environment variables
     // these global variables can be accessed in all stages
     environment {
         PROJECT_NAME = 'calc'
@@ -34,8 +34,9 @@ pipeline {
         // Push the docker image to ECR
         stage("Push docker image to ECR"){
             steps{
-                
+
             }
         }
     
+}
 }
