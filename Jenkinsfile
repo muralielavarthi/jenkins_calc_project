@@ -29,7 +29,7 @@ pipeline {
         // Build the docker image
         stage("Build docker image") {
             steps {
-                sh "docker build -t ${PROJECT_NAME}/${COMPONENT_NAME}:${APP_VERSION} ."
+                sh "docker build -t ${env.PROJECT_NAME}/${env.COMPONENT_NAME}:${env.APP_VERSION} ."
             }
         }
     }
