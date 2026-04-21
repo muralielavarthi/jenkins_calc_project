@@ -13,8 +13,9 @@ pipeline {
     stages {
         // read version from package.json and set it to env.APP_VERSION
         stage("Read Version"){
-             steps{
-                    // this is groovy code, not shell script
+             steps {
+                script {
+                    // groovy code
                     def packageJson = readJSON file: 'package.json'
                     env.APP_VERSION = packageJson.version
                 }
@@ -38,5 +39,6 @@ pipeline {
             }
         }
     
+}
 }
 }
